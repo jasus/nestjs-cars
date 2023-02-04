@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateCarDto } from './dto';
+import { CreateCarDto, UpdateCarDto } from './dto';
 
 import { v4 as uuid } from 'uuid';
 import { Car } from './interface';
@@ -47,5 +47,21 @@ export class CarsService {
     this.cars.push(car);
 
     return car;
+  }
+
+  updateCar(id: string, updateCarDto: UpdateCarDto) {
+    let carDB: Car;
+    this.cars = this.cars.map((car) => {
+      if (car.id === id) {
+        carDB = {
+          ...car,
+          ...updateCarDto,
+        };
+        return carDB;
+      }
+      return car;
+    });
+
+    return carDB;
   }
 }
